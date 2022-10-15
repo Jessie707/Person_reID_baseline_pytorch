@@ -136,4 +136,4 @@ except RuntimeError:
         "If you want to see the visualization of the ranking result, graphical user interface is needed."
     )
 
-fig.savefig("show.png")
+fig.savefig("show18e20.png")

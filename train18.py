@@ -20,6 +20,7 @@ import time
 import os
 from model import (
     ft_net,
+    ft_net18,
     ft_net_dense,
     ft_net_hr,
     ft_net_swin,
@@ -58,7 +59,7 @@ parser.add_argument(
     "--gpu_ids", default="0", type=str, help="gpu_ids: e.g. 0  0,1,2  0,2"
 )
 parser.add_argument(
-    "--name", default="ft_ResNet50_trainA", type=str, help="output model name"
+    "--name", default="ft_ResNet18_trainAe20", type=str, help="output model name"
 )
 parser.add_argument(
     "--data_dir",
@@ -590,7 +591,7 @@ elif opt.use_hr:
         len(class_names), opt.droprate, circle=return_feature, linear_num=opt.linear_num
     )
 else:
-    model = ft_net(
+    model = ft_net18(
         len(class_names),
         opt.droprate,
         opt.stride,

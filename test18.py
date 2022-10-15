@@ -19,6 +19,7 @@ import yaml
 import math
 from model import (
     ft_net,
+    ft_net18,
     ft_net_dense,
     ft_net_hr,
     ft_net_swin,
@@ -57,7 +58,7 @@ parser.add_argument(
 # )  # 需要修改
 
 parser.add_argument(
-    "--name", default="ft_ResNet50_trainA", type=str, help="save model path"
+    "--name", default="ft_ResNet18_trainAe20", type=str, help="save model path"
 )  # 注意
 parser.add_argument("--batchsize", default=256, type=int, help="batchsize")  # 可以修改
 parser.add_argument(
@@ -345,7 +346,7 @@ elif opt.use_efficient:
 elif opt.use_hr:
     model_structure = ft_net_hr(opt.nclasses, linear_num=opt.linear_num)
 else:
-    model_structure = ft_net(
+    model_structure = ft_net18(
         opt.nclasses, stride=opt.stride, ibn=opt.ibn, linear_num=opt.linear_num
     )
 

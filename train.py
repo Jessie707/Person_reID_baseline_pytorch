@@ -1,54 +1,54 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, division
+from __future__ import division, print_function
 
 import argparse
+import os
+import time
+from shutil import copyfile
+
+import matplotlib
+import matplotlib.pyplot as plt
 import torch
+import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim import lr_scheduler
+import yaml
 from torch.autograd import Variable
+from torch.optim import lr_scheduler
 from torchvision import datasets, transforms
-import torch.backends.cudnn as cudnn
-import matplotlib
 
-matplotlib.use("agg")  # 后端渲染器使用Agg，该渲染器系非交互式渲染器，使用Agg后程序保存图片而不显示图片
-import matplotlib.pyplot as plt
-
-# from PIL import Image
-import time
-import os
+from circle_loss import CircleLoss, convert_label_to_similarity
+from dgfolder import DGFolder
+from instance_loss import InstanceLoss
 from model import (
+    PCB,
     ft_net,
     ft_net_dense,
-    ft_net_hr,
-    ft_net_swin,
     ft_net_efficient,
+    ft_net_hr,
     ft_net_NAS,
-    PCB,
+    ft_net_swin,
 )
 from random_erasing import RandomErasing
-from dgfolder import DGFolder
-import yaml
-from shutil import copyfile
-from circle_loss import CircleLoss, convert_label_to_similarity
-from instance_loss import InstanceLoss
 
-version = torch.__version__
 # fp16
 try:
-    from apex.fp16_utils import *
     from apex import amp
+    from apex.fp16_utils import *
     from apex.optimizers import FusedSGD
 except ImportError:  # will be 3.x series
     print(
         "This is not an error. If you want to use low precision, i.e., fp16, please install the apex with cuda support (https://github.com/NVIDIA/apex) and update pytorch to 1.0"
     )
 
-from pytorch_metric_learning import (
+from pytorch_metric_learning import (  # pip install pytorch-metric-learning
     losses,
     miners,
-)  # pip install pytorch-metric-learning
+)
+
+version = torch.__version__
+matplotlib.use("agg")  # 后端渲染器使用Agg，该渲染器系非交互式渲染器，使用Agg后程序保存图片而不显示图片
 
 ######################################################################
 # Options
@@ -148,7 +148,6 @@ if len(gpu_ids) > 0:
 ######################################################################
 # Load Data
 # ---------
-#
 
 if opt.use_swin:
     h, w = 224, 224
@@ -246,6 +245,7 @@ use_gpu = torch.cuda.is_available()
 since = time.time()
 inputs, classes = next(iter(dataloaders["train"]))
 print(time.time() - since)
+
 ######################################################################
 # Training the model
 # ------------------
@@ -554,7 +554,6 @@ def save_network(network, epoch_label):
 # ----------------------
 #
 # Load a pretrainied model and reset final fully connected layer.
-#
 
 return_feature = (
     opt.arcface
@@ -602,7 +601,7 @@ else:
 if opt.PCB:
     model = PCB(len(class_names))
 
-opt.nclasses = len(class_names)  # 不用修改类别数？之前自动提取了训练集的类别名
+opt.nclasses = len(class_names)  #! 不用修改类别数？之前自动提取了训练集的类别名
 
 print(model)
 

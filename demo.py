@@ -1,14 +1,14 @@
 import argparse
+import os
+
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
 import scipy.io
 import torch
-import numpy as np
-import os
 from torchvision import datasets
-import matplotlib
 
 matplotlib.use("agg")
-import matplotlib.pyplot as plt
-
 #######################################################################
 # Evaluate
 parser = argparse.ArgumentParser(description="Demo")
@@ -136,4 +136,4 @@ except RuntimeError:
         "If you want to see the visualization of the ranking result, graphical user interface is needed."
     )
 
-fig.savefig("show18e20.png")
+fig.savefig("show18e20_circle_i5.png")

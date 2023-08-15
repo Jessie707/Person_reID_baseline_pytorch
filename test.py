@@ -1,32 +1,26 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, division
+from __future__ import division, print_function
 
 import argparse
+import math
+import os
+import time
+
+import numpy as np
+import scipy.io
 import torch
+import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim import lr_scheduler
-from torch.autograd import Variable
-import torch.backends.cudnn as cudnn
-import numpy as np
 import torchvision
-from torchvision import datasets, models, transforms
-import time
-import os
-import scipy.io
 import yaml
-import math
-from model import (
-    ft_net,
-    ft_net_dense,
-    ft_net_hr,
-    ft_net_swin,
-    ft_net_efficient,
-    ft_net_NAS,
-    PCB,
-    PCB_test,
-)
+from torch.autograd import Variable
+from torch.optim import lr_scheduler
+from torchvision import datasets, models, transforms
+
+from model import (PCB, PCB_test, ft_net, ft_net_dense, ft_net_efficient,
+                   ft_net_hr, ft_net_NAS, ft_net_swin)
 
 # fp16
 try:
@@ -78,6 +72,7 @@ parser.add_argument(
 )  # 研究
 
 opt = parser.parse_args()
+
 ###load config###
 # load the training config
 config_path = os.path.join(

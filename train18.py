@@ -59,7 +59,10 @@ parser.add_argument(
     "--gpu_ids", default="0", type=str, help="gpu_ids: e.g. 0  0,1,2  0,2"
 )
 parser.add_argument(
-    "--name", default="ft_ResNet18_trainAe20", type=str, help="output model name"
+    "--name",
+    default="ft_ResNet18_trainA_e20_circle",
+    type=str,
+    help="output model name",
 )
 parser.add_argument(
     "--data_dir",

@@ -58,7 +58,7 @@ parser.add_argument(
 # )  # 需要修改
 
 parser.add_argument(
-    "--name", default="ft_ResNet18_trainAe20", type=str, help="save model path"
+    "--name", default="ft_ResNet18_trainA_e20_circle", type=str, help="save model path"
 )  # 注意
 parser.add_argument("--batchsize", default=256, type=int, help="batchsize")  # 可以修改
 parser.add_argument(
@@ -396,7 +396,7 @@ result = {
     "query_label": query_label,
     "query_cam": query_cam,
 }
-scipy.io.savemat("pytorch_result.mat", result)
+scipy.io.savemat("pytorch_result_1206.mat", result)
 
 print(opt.name)
 result = "./model/%s/result.txt" % opt.name
